@@ -43,6 +43,17 @@ You can also try out the app without installation on the [Streamlit Community Cl
    - **People Finder**: Find and check the desk bookings of specific individuals.
    - **Team Finder**: Upload a CSV file with a list of team members to check their desk bookings.
 
+### Security Note on API Token Use
+Rest assured that entering your API token in the Streamlit app is safe. The app is designed to retain data only within the current session, and all data, including your API token, is deleted when you refresh the browser tab or end the session. Streamlit does not store data outside of the active session, ensuring the security of your information.
+
+Alternative integration methods will be considered for future releases to further enhance security; however, the current approach is sufficient for the purposes of this initial release.
+
+### Personal Data Processing
+The app leverages the Unity Place API to fetch real-time desk booking data. It is important to note that no data is retained beyond the active session. All data is transient and solely used for the purpose of providing functionalities within the app. Once the browser tab is refreshed or the session ends, all fetched data is deleted, and Streamlit does not store any personal data externally.
+
+⚠️ When using this app you must utilise your own API token to fetch data from the Unity Place API. It is your responsibility to handle the data retrieved responsibly and in accordance with applicable policies and regulations. Ensure that you respect privacy and confidentiality requirements when using and sharing data retrieved through the app. ⚠️
+
+
 ### Note on CSV File Format for Team Finder
 
 The CSV file must contain a single column of names with no header row, and each name should be followed by a comma. For example:
