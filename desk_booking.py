@@ -22,8 +22,12 @@ def get_all_desk_bookings(url, headers, start_date, end_date):
             "startDate": f"{current_date}T00:00:00",
             "endDate": f"{current_date}T23:59:59"
         }
-        response = requests.post(url, headers=headers, data=payload)
-        response.raise_for_status()
+        try:  # try to make the request
+            response = requests.post(url, headers=headers, data=payload)
+            response.raise_for_status()
+        except requests.exceptions.RequestException as e:  # catch any RequestException
+            st.error("Unable to fetch booking data, please try again later.")
+            st.stop()
         response_data = response.json()
 
         for floor in response_data.get('floors', []):
