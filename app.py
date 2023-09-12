@@ -620,14 +620,16 @@ def main():
         """)
 
         if uploaded_file is not None:
-            team_df = pd.read_csv(uploaded_file)
-            team_members = team_df.iloc[:, 0].tolist()  # assuming names are in the first column
-
+            team_df = pd.read_csv(uploaded_file, skipinitialspace=True, header=None)
+            team_members = [name.strip(',').lower() for name in team_df.iloc[:, 0].tolist()]  # remove trailing commas and convert names to lowercase
+            
             # Check if any of the team members have bookings
-            booked_team_members = set(team_members) & set(st.session_state['all_bookings'].keys())
+            booked_team_members = set(team_members) & set([name.lower() for name in st.session_state['all_bookings'].keys()])  # convert names to lowercase before comparing
             if booked_team_members:
                 st.subheader("Desk bookings specified team members:")
-                check_team_desk_bookings(booked_team_members, st.session_state['all_bookings'], st, start_date, end_date)
+                # Get original name capitalization from the session state for display
+                original_names = [name for name in st.session_state['all_bookings'].keys() if name.lower() in booked_team_members]
+                check_team_desk_bookings(original_names, st.session_state['all_bookings'], st, start_date, end_date)
             else:
                 st.write("None of the team members specified have desk bookings in the selected date range.")
 
